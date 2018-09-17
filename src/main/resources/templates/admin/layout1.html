@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="common_layout(title,links)">
+<head th:fragment="common_header(title)">
+  <meta charset="UTF-8">
+  <title th:replace="${title}">The awesome application</title>
+
+
+
+</head>
+<body th:fragment="common_body(main)">
+<h5>This template [[${menu}]]</h5>
+
+<div  class="container" th:replace="${main}" >
+ADBDSAFDSFDS
+</div>
+
+
+</body>
+</html>

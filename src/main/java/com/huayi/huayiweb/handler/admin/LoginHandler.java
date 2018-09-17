@@ -12,6 +12,7 @@ import io.vertx.ext.sql.SQLConnection;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.ext.web.templ.ThymeleafTemplateEngine;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -31,6 +32,12 @@ public class LoginHandler extends AbstractHandler {
     String password = request.getParam("password");
     System.out.println("username:" + userName);
     System.out.println("password:" + password);
+
+    if(StringUtils.isEmpty(userName)){
+      //跳转页面
+      routingContext.put("error", "请输入用户名和密码");
+      routingContext.reroute(HttpMethod.GET, "/admin/login");
+    }
 
     //查询数据库
     jdbcClient.getConnection(res -> {
@@ -53,16 +60,17 @@ public class LoginHandler extends AbstractHandler {
           if (list == null || list.size() == 0) {
             //跳转页面
             routingContext.put("error", "用户名不存在");
-            routingContext.put("userName", userName);
+            routingContext.put("username", userName);
             routingContext.reroute(HttpMethod.GET, "/admin/login");
           } else {
+
             Session session = routingContext.session();
 
             ManageSessionModel sessionModel = new ManageSessionModel();
-            sessionModel.setId(1);
-            sessionModel.setUserName("admin");
-            sessionModel.setTrueName("andy");
-            sessionModel.setMobile("15818590119");
+            sessionModel.setId(list.get(0).getInteger("id"));
+            sessionModel.setUserName(list.get(0).getString("user_name"));
+            sessionModel.setTrueName(list.get(0).getString("true_name"));
+            sessionModel.setMobile(list.get(0).getString("mobile"));
 
             session.put("manage", sessionModel);
 
@@ -102,17 +110,5 @@ public class LoginHandler extends AbstractHandler {
     render(routingContext, templateEngine, "/admin/login");
   }
 
-  private void render(RoutingContext routingContext, ThymeleafTemplateEngine engine, String templ) {
-    engine.render(routingContext, "", templ, res -> {
-      if (res.succeeded()) {
-        routingContext.response().end(res.result());
-      } else {
-        routingContext.fail(res.cause());
-      }
-    });
-  }
 
-  private void sendError(int statusCode, HttpServerResponse response) {
-    response.setStatusCode(statusCode).end();
-  }
 }

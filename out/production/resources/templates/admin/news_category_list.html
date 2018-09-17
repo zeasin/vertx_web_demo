@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>科目列表-找人学</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<link href="/static/public/webupload/webuploader.css" rel="stylesheet">-->
+  <!--<link href="/static/public/webupload/style.css" rel="stylesheet">-->
+  <!--<link rel="shortcut icon" href="/static/manage/img/favicon.ico">-->
+  <link href="/static/layui/css/layui.css" rel="stylesheet">
+  <style>
+    .pull-right{padding-top:20px;float:right;}
+    .pull-right .hidden-phone{color:#fff;margin-right:10px}
+    .dropdown-menu{float:right}
+    .dropdown-menu li{float:left;padding:0 10px}
+    .dropdown-menu li a{color:#fff}
+  </style>
+</head>
+
+<body>
+<!-- topbar starts -->
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="container-fluid">
+
+      <a class="brand" href="/"> </a>
+
+      <div class="btn-group pull-right">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          <i class="icon-user"></i><span class="hidden-phone"> admin</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">数据统计</a></li>
+          <li class="divider"></li>
+          <li><a href="/sys_user/update_admin_pwd">修改密码</a></li>
+          <li><a href="/login/logout">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item  layui-nav-itemed">
+          <a class="" href="javascript:;">题库管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="/subject_manage/index">科目管理</a></dd>
+            <dd ><a href="/subject_book/index">课本管理</a></dd>
+            <dd ><a href="/timu/index">题目管理</a></dd>
+            <dd ><a href="/tiku/test_volume">组卷管理</a></dd>
+
+          </dl>
+        </li>
+        <li class="layui-nav-item ">
+          <a class="" href="javascript:;">网站内容管理</a>
+          <dl class="layui-nav-child">
+            <dd ><a href="/task_type">习惯类型</a></dd>
+            <dd ><a href="/gifts">礼品商城</a></dd>
+            <dd ><a href="/articles">资讯管理</a></dd>
+            <dd ><a href="/books">图书库</a></dd>
+            <dd ><a href="/habit_content">习惯内容推送管理</a></dd>
+
+          </dl>
+        </li>
+        <li class="layui-nav-item ">
+          <a class="" href="javascript:;">用户管理</a>
+          <dl class="layui-nav-child">
+            <dd ><a href="/user_reward">用户激励列表</a></dd>
+            <dd ><a href="/user/index">用户列表</a></dd>
+            <dd ><a href="/user/active">用户活跃度统计</a></dd>
+            <dd ><a href="/user_habit">用户习惯管理</a></dd>
+            <dd ><a href="/user_zuoye">用户作业管理</a></dd>
+            <dd ><a href="/user_dynamics">用户动态列表</a></dd>
+
+          </dl>
+        </li>
+        <li class="layui-nav-item ">
+          <a class="" href="javascript:;">广告系统</a>
+          <dl class="layui-nav-child">
+            <dd ><a href="/advertising/ad_index">广告位管理</a></dd>
+
+          </dl>
+        </li>
+        <li class="layui-nav-item ">
+          <a class="" href="javascript:;">系统设置</a>
+          <dl class="layui-nav-child">
+            <dd ><a href="/privilege/index">权限菜单管理</a></dd>
+            <dd ><a href="/role/index">角色列表管理</a></dd>
+            <dd ><a href="/sys_user/index">后台用户列表管理</a></dd>
+
+          </dl>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div class="layui-body" style="padding:15px;">
+
+    <!-- content starts -->
+    <blockquote class="layui-elem-quote">科目列表</blockquote>
+
+    <fieldset class="layui-elem-field">
+      <legend>按条件搜索</legend>
+      <div class="layui-field-box">
+        <form class="layui-form layui-form-pane1" method="post" action="http://manage.youhaoke.vip/subject_manage/index">
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <input type="text" name="name" placeholder="题目内容" value="" class="layui-input">
+            </div>
+            <div class="layui-inline">
+              <button type="submit" class="layui-btn">搜索</button>
+              <a class="layui-btn" href="/subject_manage/add"><i class="layui-icon"></i> 添加科目</a>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+    </fieldset>
+    <form class="layui-form layui-form-pane1" method="post" delete_action="/subject_manage/delete">
+      <table class="layui-table" lay-even lay-skin="row">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>分类名称</th>
+          <th>分类简介</th>
+          <th>排序</th>
+          <th>是否启用</th>
+          <th>创建时间</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="44" title="44">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FuLq1BsNBpa7ZDdPlxoZm06zCUdj" width="30px">
+            地理
+
+          </td>
+          <td class="center"></td>
+          <td class="center">1</td>
+          <td class="center">是</td>
+          <td class="center">2017-10-18 10:11:03</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/44" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/44"><i class="layui-icon"></i></a>					</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="43" title="43">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/Fp33T7xLVReKuIz0F9twy2N6FmU0" width="30px">
+            历史
+
+          </td>
+          <td class="center"></td>
+          <td class="center">7</td>
+          <td class="center">是</td>
+          <td class="center">2017-10-18 10:10:52</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/43" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/43"><i class="layui-icon"></i></a>					</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="42" title="42">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FjAg7tZVZcper55oJznNMTEwFMDT" width="30px">
+            政治
+
+          </td>
+          <td class="center"></td>
+          <td class="center">5</td>
+          <td class="center">是</td>
+          <td class="center">2017-10-18 10:09:55</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/42" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/42"><i class="layui-icon"></i></a>					</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="41" title="41">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FtSaDdFP6rCD4yPu0r97TcjSDm7t" width="30px">
+            生物
+
+          </td>
+          <td class="center"></td>
+          <td class="center">6</td>
+          <td class="center">是</td>
+          <td class="center">2017-10-18 10:08:43</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/41" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/41"><i class="layui-icon"></i></a>					</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="40" title="40">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FuioWHIXMYX33EZn16ec8ai5CtKp" width="30px">
+            化学
+
+          </td>
+          <td class="center"></td>
+          <td class="center">5</td>
+          <td class="center">是</td>
+          <td class="center">2017-10-18 10:08:05</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/40" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/40"><i class="layui-icon"></i></a>					</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="39" title="39">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/Fv6l9gIXhuxNFgYxsXM9wH6TYT-r" width="30px">
+            物理
+
+          </td>
+          <td class="center"></td>
+          <td class="center">4</td>
+          <td class="center">是</td>
+          <td class="center">2017-10-18 09:50:57</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/39" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/39"><i class="layui-icon"></i></a>					</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="38" title="38">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/Fr60Jdsm4cy86f2FP06FfCRsrfH5" width="30px">
+            其他
+
+          </td>
+          <td class="center"></td>
+          <td class="center">0</td>
+          <td class="center">是</td>
+          <td class="center">2017-09-11 17:02:14</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/38" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/38"><i class="layui-icon"></i></a>				</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="35" title="35">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FiKO57N1KwWagEN2Yoym8cx44V3Y" width="30px">
+            英语
+
+          </td>
+          <td class="center"></td>
+          <td class="center">7</td>
+          <td class="center">是</td>
+          <td class="center">2017-05-16 20:24:14</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/35" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/35"><i class="layui-icon"></i></a>				</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="34" title="34">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FtiPrSnb9yUpFDVYI_7dBudDeWF8" width="30px">
+            语文
+
+          </td>
+          <td class="center"></td>
+          <td class="center">9</td>
+          <td class="center">是</td>
+          <td class="center">2017-05-16 20:24:14</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/34" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/34"><i class="layui-icon"></i></a>	</td>
+        </tr>
+        <tr>
+          <td class="center">
+            <input type="checkbox" name="ids[]" value="33" title="33">
+          </td>
+          <td class="center">
+            <img src="http://img.zhaorenxue.com/FuuzkootWc7k1pSJT2-NzpSmJG2J" width="30px">
+            数学
+
+          </td>
+          <td class="center"></td>
+          <td class="center">8</td>
+          <td class="center">是</td>
+          <td class="center">2017-05-16 20:24:14</td>
+          <td class="center">
+            <a class="layui-btn layui-btn-primary layui-btn-small" href="/subject_manage/edit/33" target="_blank"><i class="layui-icon"></i></a>
+            <a class="layui-btn layui-btn-primary layui-btn-small delete_data" href="/subject_manage/delete/33"><i class="layui-icon"></i></a>	</td>
+        </tr>
+
+        <tr>
+          <td class="center" colspan="7">
+            <input type="checkbox" lay-filter="checkbox_all" title="全选">
+            <button id="delete" class="layui-btn layui-btn-primary layui-btn-small" style="margin-top:4px;"><i class="layui-icon"></i> 批量删除</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+    <div class="layui-box layui-laypage layui-laypage-default">
+
+    </div>
+    <div class="layui-box layui-laypage layui-laypage-default">
+      <span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span><a href="/gifts/index/20" data-ci-pagination-page="2">2</a><a href="/gifts/index/40" data-ci-pagination-page="3">3</a><a href="/gifts/index/20" data-ci-pagination-page="2" rel="next">下一页</a><a href="/gifts/index/80" data-ci-pagination-page="5">末页</a>
+    </div>
+  </div>
+</div>
+
+<script src="/static/layui/layui.all.js"></script>
+
+</body>
+<html>

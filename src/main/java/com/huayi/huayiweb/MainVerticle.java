@@ -1,6 +1,8 @@
 package com.huayi.huayiweb;
 
+import com.huayi.huayiweb.handler.admin.HomeHandler;
 import com.huayi.huayiweb.handler.admin.LoginHandler;
+import com.huayi.huayiweb.handler.admin.NewsHandler;
 import com.huayi.huayiweb.model.ManageSessionModel;
 import com.huayi.huayiweb.utils.DataSourceHelper;
 import io.vertx.core.AbstractVerticle;
@@ -41,10 +43,18 @@ public class MainVerticle extends AbstractVerticle {
 
   }
 
+  //JDBCClient
   private JDBCClient client;
+  //Template Engine
+  private ThymeleafTemplateEngine engine;
+
   //登录Handler
   private LoginHandler loginHandler;
-  private ThymeleafTemplateEngine engine;
+  //管理后台首页
+  private HomeHandler homeHandler;
+  //新闻管理Handler
+  private NewsHandler newsHandler;
+
 
   @Override
   public void init(Vertx vertx, Context context) {
@@ -55,13 +65,17 @@ public class MainVerticle extends AbstractVerticle {
     //加载模版引擎
     engine = ThymeleafTemplateEngine.create();
     ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-    resolver.setPrefix("templates");
+    resolver.setPrefix("templates/");
     resolver.setSuffix(".html");
     resolver.setTemplateMode("HTML");
     engine.getThymeleafTemplateEngine().setTemplateResolver(resolver);
     context.put("TemplateEngine", engine);
 
+    //加载Handler
     loginHandler = new LoginHandler(context);
+    newsHandler = new NewsHandler(context);
+    homeHandler = new HomeHandler(context);
+
     this.vertx = vertx;
     this.context = context;
   }
@@ -110,43 +124,10 @@ public class MainVerticle extends AbstractVerticle {
 
     //后台页面路由
     router.get("/admin/login").handler(loginHandler::handleGetLogin);
-//    router.get("/admin/login").handler(ctx -> {
-//      logger.info("访问登录页面");
-////      render(ctx, engine, "/admin/login");
-//      engine.render(ctx, "", "/admin/login", res -> {
-//        if (res.succeeded()) {
-//          ctx.response().end(res.result());
-//        } else {
-//          ctx.fail(res.cause());
-//        }
-//      });
-//    });
-
     //登录POST
     router.post("/admin/login").handler(loginHandler::handlePostLogin);
-//    router.post("/admin/login").handler(routingContext->{
-//      HttpServerResponse response = routingContext.response();
-//      HttpServerRequest request = routingContext.request();
-//      String userName = request.getParam("username");
-//      String password = request.getParam("password");
-//      System.out.println("username:" + userName);
-//      System.out.println("password:" + password);
-//
-//      Session session = routingContext.session();
-//      //登录session实体
-//      ManageSessionModel sessionModel = new ManageSessionModel();
-//      sessionModel.setId(1);
-//      sessionModel.setUserName("admin");
-//      sessionModel.setTrueName("andy");
-//      sessionModel.setMobile("15818590119");
-//      //设置session
-//      session.put("manage", sessionModel);
-//      //跳转页面
-//      response.setStatusCode(302);
-//      response.headers().add("location","/admin/index");
-//      response.end();
-//    });
 
+    //后台页面拦截器
     router.route("/admin/*").handler(ctx -> {
       System.out.println("访问后台");
       //获取session
@@ -163,17 +144,10 @@ public class MainVerticle extends AbstractVerticle {
       ctx.next();
     });
 
-    router.get("/admin/index").handler(routingContext -> {
-      logger.info("访问后台首页页面");
-//      render(ctx, engine, "/admin/index");
-      engine.render(routingContext, "", "/admin/index", res -> {
-        if (res.succeeded()) {
-          routingContext.response().end(res.result());
-        } else {
-          routingContext.fail(res.cause());
-        }
-      });
-    });
+    //后台页面
+    router.get("/admin/index").handler(homeHandler::handleGetHome);
+    router.get("/admin/news/category_list").handler(newsHandler::handleGetNewsCategoryList);
+    router.get("/admin/news/list").handler(newsHandler::handleGetNewsList);
 
 
     // vert.x使用log4j
